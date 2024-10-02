@@ -8,7 +8,7 @@ export default function Home() {
 
   useEffect(() => {
     // Get todos from backend
-    fetch('http://localhost:3000/todos')
+    fetch('http://localhost:3001/todos')
       .then((res) => res.json())
       .then((data) => setTodos(data.map((todo: { task: string }) => todo.task)));
   }, []);
@@ -17,7 +17,7 @@ export default function Home() {
     if (newTodo.trim() === '') return;
 
     // Post new todo to backend
-    await fetch('http://localhost:3000/todos', {
+    await fetch('http://localhost:3001/todos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
