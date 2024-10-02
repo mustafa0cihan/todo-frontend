@@ -10,7 +10,7 @@ export default function Home() {
     // Get todos from backend
     fetch('http://localhost:3000/todos')
       .then((res) => res.json())
-      .then((data) => setTodos(data.map((todo: any) => todo.task)));
+      .then((data) => setTodos(data.map((todo: { task: string }) => todo.task)));
   }, []);
 
   const addTodo = async () => {
