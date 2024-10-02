@@ -3,7 +3,7 @@ name: Deploy Next.js App on Main
 on:
   push:
     branches:
-      - main  # Trigger on pushes to the main branch only
+      - main  # Sadece main dalına yapılan push'larda tetiklenir
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18.18' # Use the latest Node.js version
+        node-version: '18.18' # Node.js 18.18 versiyonu
     
     - name: Install dependencies
       run: npm install
@@ -37,7 +37,7 @@ jobs:
         password: ${{ secrets.SERVER_PASSWORD }}
         port: 22
         source: "next-build.zip"
-        target: "./"  # Install to user directory
+        target: "./"  # Kullanıcı dizinine yüklenir
     
     - name: Execute Remote Script
       uses: appleboy/ssh-action@master
@@ -47,7 +47,7 @@ jobs:
         password: ${{ secrets.SERVER_PASSWORD }}
         port: 22
         script: |
-          cd ~/sites/martech-fc.com/todo-frontend && find . -type f ! \( -path './uploads/*' -o -name '.htaccess' -o -name 'api_proxy.php' -o -name '.infomaniak-maintenance.html' -o -name '.user.ini' \) -exec rm -f {} +
-          cd ~/sites/martech-fc.com/todo-frontend  # Dosya yolu güncellendi
+          cd ~/sites/martech-fc.com && find . -type f ! \( -path './uploads/*' -o -name '.htaccess' -o -name 'api_proxy.php' -o -name '.infomaniak-maintenance.html' -o -name '.user.ini' \) -exec rm -f {} +
+          cd ~/sites/martech-fc.com  # Dosya yolu güncellendi
           unzip -o ~/next-build.zip -d .  # Dosyaları üzerine yazar
           rm ~/next-build.zip  # Zip dosyasını siler
