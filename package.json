@@ -1,5 +1,6 @@
 {
   "name": "todo-app",
+  "homepage": "https://martech-fc.com",
   "version": "0.1.0",
   "private": true,
   "scripts": {
