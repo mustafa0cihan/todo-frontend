@@ -26,3 +26,22 @@ body {
     text-wrap: balance;
   }
 }
+
+@keyframes blink {
+  0% {
+    border-right-color: rgba(0, 0, 0, 0);
+  }
+  50% {
+    border-right-color: black;
+  }
+  100% {
+    border-right-color: rgba(0, 0, 0, 0);
+  }
+}
+
+.typewriter {
+  border-right: 2px solid black; /* Daktilo efektinin sonunda bir imleç görünümü */
+  white-space: nowrap; /* Metni tek satırda tutar */
+  overflow: hidden; /* Metnin taşmasını engeller */
+  animation: blink 0.7s infinite; /* İmleç yanıp söner */
+}
