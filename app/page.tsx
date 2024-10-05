@@ -63,59 +63,57 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 export default function Home() {
-  const fullMessages = [
+  const fullMessages = useMemo(() => [
     "Our website is undergoing exciting updates.",
     "Get ready for something amazing!",
     "Stay tuned and visit us again soon."
-  ];
+  ], []);
 
-  const [displayedMessages, setDisplayedMessages] = useState<string[]>([]); // Gösterilen mesajları burada tutuyoruz
-  const [currentIndex, setCurrentIndex] = useState(0); // Şu an yazılan cümlenin indexi
-  const [fullTextIndex, setFullTextIndex] = useState(0); // Hangi kelimenin/harfin yazıldığını izler
-  const [isTyping, setIsTyping] = useState(true); // Şu an yazılıyor mu kontrolü
+  const [displayedMessages, setDisplayedMessages] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [fullTextIndex, setFullTextIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
 
   useEffect(() => {
     if (currentIndex < fullMessages.length && isTyping) {
-      const currentMessage = fullMessages[currentIndex]; // Şu anki cümleyi al
+      const currentMessage = fullMessages[currentIndex];
       let typingTimeout: NodeJS.Timeout;
 
       if (fullTextIndex < currentMessage.length) {
         typingTimeout = setTimeout(() => {
           setDisplayedMessages((prevMessages) => {
             const updatedMessages = [...prevMessages];
-            if (!updatedMessages[currentIndex]) updatedMessages[currentIndex] = ''; // Şu anki satır yoksa başlat
-            updatedMessages[currentIndex] += currentMessage[fullTextIndex]; // Harf harf ekle
+            if (!updatedMessages[currentIndex]) updatedMessages[currentIndex] = '';
+            updatedMessages[currentIndex] += currentMessage[fullTextIndex];
             return updatedMessages;
           });
           setFullTextIndex(fullTextIndex + 1);
-        }, 50); // Harf ekleme süresi
+        }, 50);
       } else {
         setIsTyping(false);
         setTimeout(() => {
-          setIsTyping(true); // Sonraki cümle için yazmaya başla
-          setCurrentIndex(currentIndex + 1); // Sonraki cümleye geç
-          setFullTextIndex(0); // Harf indexini sıfırla
-        }, 1000); // Cümle tamamlandıktan sonra 1 saniye bekle
+          setIsTyping(true);
+          setCurrentIndex(currentIndex + 1);
+          setFullTextIndex(0);
+        }, 1000);
       }
 
       return () => clearTimeout(typingTimeout);
     } else if (currentIndex >= fullMessages.length) {
-      // Tüm cümleler yazıldıktan sonra bekle ve sonra yeniden başla
       setTimeout(() => {
-        setDisplayedMessages([]); // Gösterilen mesajları sıfırla
-        setCurrentIndex(0); // İlk cümleye dön
-        setFullTextIndex(0); // Harf indexini sıfırla
-        setIsTyping(true); // Yazmaya başla
-      }, 2000); // Tüm mesajlar yazıldıktan sonra 2 saniye bekle
+        setDisplayedMessages([]);
+        setCurrentIndex(0);
+        setFullTextIndex(0);
+        setIsTyping(true);
+      }, 3000);
     }
   }, [fullTextIndex, currentIndex, isTyping, fullMessages]);
 
   return (
     <div className="h-screen w-screen flex flex-col">
-      {/* Üst Kısım - Coming Soon Resmi */}
       <div className="relative h-[50vh] w-full bg-white">
         <Image
           src="/coming-soon.png"
@@ -128,7 +126,6 @@ export default function Home() {
         />
       </div>
 
-      {/* Alt Kısım - Beyaz Arka Plan ve Mesaj */}
       <div className="flex flex-col items-center justify-center h-[50vh] bg-white">
         <div className="mt-10 text-center">
           {displayedMessages.map((msg, index) => (

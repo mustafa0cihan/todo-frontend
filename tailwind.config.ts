@@ -14,13 +14,12 @@ const config: Config = {
         black: '#000',
       },
       animation: {
-        'fade-in': 'fadeIn 2s ease-out',
-        'bounce': 'bounce 2s infinite',
+        fadeIn: 'fadeIn 1s ease-in-out',
       },
       keyframes: {
         fadeIn: {
-          '0%': { opacity: 0 },
-          '100%': { opacity: 1 },
+          '0%': { opacity: '0' },  // String olarak belirt
+          '100%': { opacity: '1' }, // String olarak belirt
         },
       },
       
